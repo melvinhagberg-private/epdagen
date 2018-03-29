@@ -1,0 +1,55 @@
+/* @import url('https://fonts.googleapis.com/css?family=Raleway'); */
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300');
+
+html, body {
+	margin: 0;
+	padding: 0;
+	background: #F9FAF9;
+	min-height: 100vh;
+}
+
+#sidebar {
+	width: 250px;
+	height: 100vh;
+	background: #FFF;
+	position: fixed;
+	top: 0;
+	left: 0;
+}
+
+.settings-wrapper {
+	width: calc(100vw - 300px - 30px);
+	margin-left: 300px;
+	padding-top: 20px;
+	position: relative;
+}
+
+.flex {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.panel {
+	background: #fff;
+	padding: 20px;
+	border-radius: 5px;
+	box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.single-panel {
+	width: calc(100% - 65px);
+}
+
+.uk-table-hover tbody tr:hover, .uk-table-hover>tr:hover {
+    background: #f3f3f3 !important;
+}
+
+.uk-nav-default {
+	padding-left: 30px !important;
+}
+
+.uk-nav-default .uk-nav-divider {
+	margin-left: -30px !important;
+}

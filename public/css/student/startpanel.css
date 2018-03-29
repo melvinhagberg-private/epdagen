@@ -1,0 +1,33 @@
+.panel-wrapper-4 {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+	width: 100%;
+	margin: 0 0 30px 0;
+}
+
+.panel-wrapper-4 .panel {
+	margin-right: 25px;
+}
+
+.panel-wrapper-4 .panel span {
+	display: block;
+	font-size: 18px;
+}
+
+.panel-wrapper-4 .panel h4 {
+	display: block;
+	font-size: 30px;
+	margin: 0;
+}
+
+.show-more {
+	display: block;
+	text-align: center;
+	margin: 0;
+	font-size: 18px;
+}
+
+.panel-wrapper-2 {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+}

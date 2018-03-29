@@ -1,0 +1,25 @@
+form {
+	width: 100%;
+	max-width: 400px;
+}
+
+.uk-button {
+	margin: 20px 0 0 0;
+}
+
+.preview-url {
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	background: #F9F9F9;
+	color: #4B4B4B;
+}
+
+.secure { color: #27AE60; }
+
+.field-error {
+	display: block;
+	color: #F04F6E;
+	margin-left: 15px;
+}

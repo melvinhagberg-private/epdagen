@@ -17,12 +17,13 @@ class AdminController extends Controller {
 		$user = Auth::user();
 		$peers = User::where('grade', $user['grade'])->get();
 		$total = 0;
-		
+		$role = Auth::user()['role'];
+
 		foreach ($peers as $single) {
 			$total += $single['sold_for'];
 		}
-		
-		return view('student-panel.startpanel', compact('user', 'total'));
+
+		return view('student-panel.startpanel', compact('user', 'total', 'role'));
 	}
 
 	public function showCreateUser() {
@@ -30,15 +31,15 @@ class AdminController extends Controller {
 
 		switch($role) {
 			case 1:
-				return view('admin-panel.createuser');
+				return view('admin-panel.createuser', compact('role'));
 				break;
 			case 2:
 				return redirect('/admin');
 				break;
 			case 3:
-				return view('student-panel.createuser');
+				return view('student-panel.createuser', compact('role'));
 		}
-		
+
 	}
 
 	public function update(Update $form) {
@@ -47,26 +48,27 @@ class AdminController extends Controller {
 
 		return redirect('/admin');
 	}
-	
+
 	/* ----- Panel Pages ----- */
 	public function latest() {
+		$role = Auth::user()['role'];
 		$tickets = Ticket::where('student_id', Auth::user()['id'])->orderBy('updated_at', 'ASC')->get();
 
 		$groups = array();
-		
+
 		foreach ($tickets as $ticket) {
 			if ($ticket['group'] == '') {
 				$parent = $ticket['ticket_id'];
 			} else {
 				$parent = $ticket['group'];
 			}
-			
+
 			if (array_key_exists($parent, $groups)) {
-				
+
 				$group = $groups[$parent];
-				
+
 				$group['num'] += 1;
-				
+
 				if ($ticket['type'] == 1) {
 					$group['price'] = $group['num'] * 350;
 					$group['nice_type'] = 'privatbiljetter';
@@ -74,11 +76,11 @@ class AdminController extends Controller {
 					$group['price'] = $group['num'] * 500;
 					$group['nice_type'] = 'företagsbiljetter';
 				}
-				
+
 				$groups[$parent] = $group;
-				
+
 			} else {
-				
+
 				if ($ticket['type'] == 1) {
 					$price = 300;
 					$type = 'privatbiljett';
@@ -86,7 +88,7 @@ class AdminController extends Controller {
 					$price = 500;
 					$type = 'företagsbiljett';
 				}
-				
+
 				$groups[$parent] = array(
 					'name' => $ticket['name'],
 					'email' => $ticket['email'],
@@ -96,11 +98,11 @@ class AdminController extends Controller {
 					'nice_type' => $type,
 					'price' => $price
 				);
-				
+
 			}
 		}
-		
-		return view('student-panel.latest', compact('groups'));
+
+		return view('student-panel.latest', compact('groups', 'role'));
 	}
-	
+
 }

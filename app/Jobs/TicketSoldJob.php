@@ -15,7 +15,7 @@ class TicketSoldJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $student_email, $num, $total, $name, $email, $phone;
-    
+
     public function __construct($student_email, $num, $total, $name, $email, $phone) {
         $this->student_email = $student_email;
         $this->num = $num;

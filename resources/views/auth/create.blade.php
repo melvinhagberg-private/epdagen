@@ -7,57 +7,62 @@
 
 @section('content')
 <div id="app">
+	<div class="register-parent">
+        <div class='uk-placeholder registerPanel'>
+            <h3 class='title'>Registrera</h3>
 
-	<div class="inner">
-		<form method='POST' action='/admin/uppdatera'>
-			@csrf
+    		<form method='POST' action='/admin/uppdatera'>
+    			@csrf
 
-			<input name='signup_token' type="hidden" value='{{$token}}'>
+    			<input name='signup_token' type="hidden" value='{{$token}}'>
 
-	        <div class="uk-margin">
-	            <input name='name' class="uk-input @if ($errors->has('name')) uk-form-danger @endif" type="text" placeholder="För- och efternamn" v-model='full_name' @blur="sell_url_create">
-				@if ($errors->has('name'))
-					@foreach ($errors->get('name') as $error)
-						<span class="field-error">*{{$error}}</span>
-					@endforeach
-				@endif
-	        </div>
+                <div class="uk-margin">
+                    <div class='uk-inline'>
+                        <input name='name' type='text' class="uk-input" placeholder='För- och efternamn' required autofocus value="{{old('name')}}" v-model='full_name' @blur="sell_url_create">
+                    </div>
+                    @if ($errors->has('name'))
+                        <span class="error">{{ $errors->first('name') }}</span>
+                    @endif
+                </div>
 
-	        <div class="uk-margin">
-	            <input name='email' class="uk-input @if ($errors->has('email')) uk-form-danger @endif" type="email" placeholder="E-post" value='{{$email}}'>
-				@if ($errors->has('email'))
-					@foreach ($errors->get('email') as $error)
-						<span class="field-error">*{{$error}}</span>
-					@endforeach
-				@endif
-	        </div>
+                <div class="uk-margin">
+                    <div class='uk-inline'>
+                        <input name='email' type='email' class="uk-input" placeholder='E-post' required value="{{old('email')}}">
+                    </div>
+                    @if ($errors->has('email'))
+                        <span class="error">{{ $errors->first('email') }}</span>
+                    @endif
+                </div>
 
-	        <div class="uk-margin">
-	            <input name='password' class="uk-input @if ($errors->has('password')) uk-form-danger @endif" type="password" placeholder="Lösenord">
-	            @if ($errors->has('password'))
-					@foreach ($errors->get('password') as $error)
-						<span class="field-error">*{{$error}}</span>
-					@endforeach
-				@endif
-	        </div>
+                <div class="uk-margin">
+                    <div class='uk-inline'>
+                        <input name='password' type='password' class="uk-input" placeholder='Lösenord' required value="{{old('password')}}">
+                    </div>
+                    @if ($errors->has('password'))
+                        <span class="error">{{ $errors->first('password') }}</span>
+                    @endif
+                </div>
 
-	        <div class="uk-margin">
-	            <input name='sell_url' class="uk-input @if ($errors->has('sell_url')) uk-form-danger @endif" type="text" placeholder="Sälj-URL" v-model='sell_url'>
-	            @if ($errors->has('sell_url'))
-	            	@foreach ($errors->get('sell_url') as $error)
-	            		<span class="field-error">*{{$error}}</span>
-	            	@endforeach
-	            @endif
-	        </div>
+                <div class="uk-margin">
+                    <div class='uk-inline'>
+                        <input name='sell_url' class="uk-input" type="text" placeholder="Sälj-URL" v-model='sell_url'>
+                    </div>
+                    @if ($errors->has('sell_url'))
+                        <span class="error">{{ $errors->first('sell_url') }}</span>
+                    @endif
+                </div>
 
-	        <div class="preview-url">
-				<span>
-					<span class="secure">https:</span>//epdagen.se/@{{sell_url_preview}}
-				</span>
-	        </div>
+                <div class="preview-url">
+    				<span>
+    					<span class="secure">https:</span>//epdagen.se/@{{sell_url_preview}}
+    				</span>
+    	        </div>
 
-			<button class="uk-button uk-button-primary">Registrera</button>
-		</form>
+                <div class="uk-margin">
+                    <button type='submit' class="uk-button uk-button-primary">Logga in</button>
+                </div>
+    		</form>
+        </div>
 	</div>
 
 </div>

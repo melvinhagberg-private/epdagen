@@ -40,7 +40,7 @@
 
 		<div class='form-group'>
 			@if ($affiliate)
-				<input type='hidden' name='student_name' value='{{$affiliate["name"]}}'
+				<input type='hidden' name='student_name' value='{{$affiliate["name"]}}'>
 			@else
 				<label for='student_name'>Säljare</label>
 				<div class="select" id='student_name'>
@@ -62,7 +62,7 @@
 
 		<div class='form-group'>
 			<label for='form-ticket-count'>Antal Biljetter</label>
-			<div class="select"> <!-- id='form-ticket-count' -->
+			<div class="select">
 				<select name='Biljettantal' id='numTickets'>
 					<option value='none' disabled selected>Antal biljetter</option>
 				    <option value='1'>1 biljett</option>
@@ -84,11 +84,10 @@
 		<button type='submit' disabled>Betala</button>
 
 	</form>
-	
+
 	<a href='https://www.melvinhagberg.com' class='madeby'>System av <span>Melvin Hagberg</span></a>
 </div>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.js'></script> -->
 	<script src='/js/client-ticket/info.js'></script>
 @endsection

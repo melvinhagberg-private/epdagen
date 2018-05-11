@@ -1,0 +1,27 @@
+.login-parent {
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loginPanel {
+    width: 500px;
+    text-align: center;
+}
+
+.loginPanel h3.title {
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.loginPanel .uk-inline {
+    width: 70%;
+}
+
+.loginPanel .error {
+    display: block;
+    color: #e60000;
+}

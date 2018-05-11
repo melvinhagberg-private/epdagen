@@ -9,21 +9,19 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
 use Illuminate\Support\Facades\Mail;
-use App\Mail\Ticket as TicketMail;
+use App\Mail\RegisterStudent;
 
-class TicketMailJob implements ShouldQueue
+class InviteMailJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $filepaths, $email, $name;
+    public $email;
 
-    public function __construct($filepaths, $email, $name) {
-        $this->filepaths = $filepaths;
+    public function __construct($email) {
         $this->email = $email;
-        $this->name = $name;
     }
 
     public function handle() {
-        Mail::to($this->email)->send(new TicketMail($this->filepaths, $this->name));
+        Mail::to($this->email)->send(new RegisterStudent(md5($this->email)));
     }
 }

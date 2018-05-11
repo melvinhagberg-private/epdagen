@@ -2,6 +2,8 @@
 
 use App\Admin;
 
+use App\Jobs\TicketMailJob;
+
 /* ----- Main: Tickets ----- */
 	/* ----- Step 1: Info ----- */
 	Route::get('/biljett/uppgifter', 'TicketController@viewInfo');
@@ -9,10 +11,10 @@ use App\Admin;
 
 	/* ----- Step 2: Payment ----- */
 	Route::get('/biljett/betala', 'TicketController@viewPayment');
-	
+
 	/* ----- Step 3: Confirmation ----- */
 	Route::get('/biljett/tack-for-ditt-kop', 'TicketController@confirmation');
-	
+
 	/* ----- Validate: Single ticket ----- */
 	Route::get('/validera/{ticket_id}', 'TicketController@ticketValid');
 	Route::get('/validera/regret/{ticket_id}', 'TicketController@ticketRegret');
@@ -28,7 +30,7 @@ Route::get('/admin/senaste', 'AdminController@latest');
 Route::get('/admin/bjud-in', 'AdminController@showCreateUser');
 
 Route::get('/', 'TicketController@index');
-Route::get('/{student}', 'TicketController@index');
+Route::get('/{student}', 'TicketController@viewInfo');
 
 // Tillfälliga
 Route::get('/logout', function() {

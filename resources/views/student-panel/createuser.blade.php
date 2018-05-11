@@ -10,6 +10,8 @@
 <div id="app" class='content'>
 
 	<div class="settings-wrapper">
+		<div id='status' class="uk-alert"></div>
+
 		<form @submit.prevent="addEmail">
 		    <div>
 		        <div class="uk-inline">

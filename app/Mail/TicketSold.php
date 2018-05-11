@@ -12,7 +12,7 @@ class TicketSold extends Mailable
     use Queueable, SerializesModels;
 
     public $num, $total, $name, $email, $phone;
-    
+
     public function __construct($num, $total, $name, $email, $phone) {
         $this->num = $num;
         $this->total = $total;
@@ -28,12 +28,12 @@ class TicketSold extends Mailable
      */
     public function build()
     {
-        return $this->markdown('mails/ticketsold')->with([
+        return $this->view('mails/ticketsold')->with([
             'num' => $this->num,
             'total' => $this->total,
             'name' => $this->name,
             'email' => $this->email,
             'phone' => $this->phone
-        ]);
+        ])->from('test@epdagen.se')->subject('Ny försäljning till ' . $this->name);
     }
 }

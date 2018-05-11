@@ -6,7 +6,6 @@ use App\Http\Requests\Type;
 use App\Http\Requests\TicketInfo;
 use App\Payment;
 use App\User;
-// use App\ViewTicket;
 use Auth;
 use App\Ticket;
 
@@ -16,19 +15,8 @@ class TicketController extends Controller {
     public function __construct(Payment $pay) {
         $this->Payment = $pay;
     }
-	
-	public function index($path = NULL) {		
-		if ($path) {
-			$student = User::where('sell_url', $path)->first();
-		}
 
-		$ses = session('client');
-
-		if (isset($student)) {
-			session()->flash('student', $student);
-			return redirect('/biljett/uppgifter');
-		}
-
+	public function index() {
 		if (isset($ses['products'])) {
 			return redirect('/biljett/betala');
 		} else {
@@ -37,16 +25,27 @@ class TicketController extends Controller {
 	}
 
 	/* ----- Step 1: Info ----- */
-	public function viewInfo() {		
+	public function viewInfo($path = NULL) {
 		$name = 'Uppgifter';
 
-		if ($affiliate = session('student')) {
+		if ($path !== NULL) {
+			$student = User::where('sell_url', $path)->first();
+			if ($student) {
+				session()->flash('student', $student);
+				$affiliate = $student;
+			} else {
+				return redirect('/biljett/uppgifter');
+			}
+
+		} else if ($affiliate = session('student')) {
 			session()->reflash('student');
-			
-		} else {
-			$affiliate = false;
-			$students = User::orderBy('grade')->get();
+			$affiliate = session('student');
+		}
+
+		if (!isset($affiliate)) {
+			$students = User::orderBy('grade')->where('role', 2)->orWhere('role', 3)->get();
 			$grades = User::selectRaw('COUNT(id), grade')->groupBy('grade')->get();
+			$affiliate = false;
 		}
 
 		if (!$affiliate) {
@@ -74,7 +73,7 @@ class TicketController extends Controller {
 		$paymentHref = Payment::init(session('client'));
 
 		$name = 'Betala';
-		
+
 		return view('client-ticket.payment.index', compact('paymentHref', 'name'));
 	}
 
@@ -82,16 +81,16 @@ class TicketController extends Controller {
 	public function confirmation() {
 		return $this->Payment->store();
 	}
-	
+
 	/* ----- Admin only: Validate ticket ----- */
 	public function ticketValid($ticket_id) {
 		// if (!$user = Auth::user()) {
 		// 	return redirect(url('/biljett/' . $ticket_id . '.pdf'));
         // }
-        
+
         $query = Ticket::where('ticket_id', $ticket_id);
 		$ticket = $query->first();
-        
+
         if ($ticket) {
 			if (!$ticket['used']) {
 				$query->update(['used' => true]);
@@ -104,12 +103,12 @@ class TicketController extends Controller {
             return view('ticketValid.invalid');
         }
 	}
-	
+
 	public function ticketRegret($ticket_id) {
 		// if (!$user = Auth::user()) {
 		// 	return redirect(url('/biljett/' . $ticket_id . '.pdf'));
         // }
-		
+
 		$query = Ticket::where('ticket_id', $ticket_id)->update(['used' => false]);
 		return 'Åtgärd ångrad';
 	}

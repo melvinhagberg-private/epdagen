@@ -10,14 +10,14 @@ use App\Jobs\TicketMailJob;
 use App\Jobs\TicketSoldJob;
 
 class Payment extends Model {
-    
+
     private $pdfgen;
 
     public function __construct(PDFgen $pdfgen) {
         $this->PDFgen = $pdfgen;
     }
-    
-	public static function init($client) {   
+
+	public static function init($client) {
 		$price = 0;
 		foreach ($client['products'] as $prod) {
 			$price += $prod['price'];
@@ -61,7 +61,7 @@ class Payment extends Model {
 		$response = curl_exec($curl);
 		$response = json_decode($response, true);
 		curl_close($curl);
-        
+
         if (!isset($response['payment_ref'])) {
             // session()->flush();
             return redirect(url('/biljett/uppgifter'));
@@ -77,21 +77,21 @@ class Payment extends Model {
 		return $response['href'];
 	}
 
-	public function store() {        
+	public function store() {
 		$hasGet = (isset($_GET['payment_ref']) && $_GET['status'] === 'approved');
 
 		if ($hasGet) {
 			$tickets = Ticket::where('payment_ref', $_GET['payment_ref']);
 
                 $tickets->update(['payment_status' => 1]);
-                
+
                 $email = session('client.products.0.email');
                 $filepaths = $this->PDFgen->main($tickets->get());
-                
-                $job = ((new TicketMailJob($filepaths, $email))->delay(now()->addSeconds(1)));
+                $prods = session()->get('client.products');
+
+                $job = ((new TicketMailJob($filepaths, $email, $prods[0]['name']))->delay(now()->addSeconds(1)));
                 dispatch($job);
-			
-				$prods = session()->get('client.products');
+
 				$student_id = $prods[0]['student_id'];
 				$total = 0;
 
@@ -103,11 +103,11 @@ class Payment extends Model {
 				$student_query = User::where('id', $student_id);
                 $student_query->increment('sold_for', $total);
                 $student_email = $student_query->first()['email'];
-				
+
                 $name = $prods[0]['name'];
                 $email = $prods[0]['email'];
                 $phone = $prods[0]['phone'];
-                
+
                 $job = ((new TicketSoldJob($student_email, $num, $total, $name, $email, $phone))->delay(now()->addSeconds(1)));
                 dispatch($job);
 
@@ -115,7 +115,7 @@ class Payment extends Model {
 
 		} else {
             session()->forget('client');
-            
+
 			if (session()->has('sent-email')) {
 				session()->reflash('sent-email');
 				return view('client-ticket.completed.index', ['email' => session('sent-email'), 'name' => 'Bekräftelse']);
@@ -124,7 +124,7 @@ class Payment extends Model {
 				return redirect('/');
 			}
 		}
-		
+
 	}
 
 }

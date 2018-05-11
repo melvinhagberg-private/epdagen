@@ -5,6 +5,10 @@ html, body {
 
 .settings-wrapper {
 	width: 482px;
+	background: #FFF;
+	padding: 30px 50px;
+	position: relative;
+	top: 20px;
 }
 
 .uk-table .del {
@@ -63,5 +67,9 @@ p.atr:first-of-type {
 }
 
 .select {
-	margin: 5px 0 3px 0 !important;	
+	margin: 5px 0 3px 0 !important;
+}
+
+.uk-alert {
+	display: none;
 }

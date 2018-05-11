@@ -1,25 +1,43 @@
-form {
-	width: 100%;
-	max-width: 400px;
-}
-
-.uk-button {
-	margin: 20px 0 0 0;
-}
-
 .preview-url {
-	width: 100%;
+	width: 70%;
 	height: 40px;
 	line-height: 40px;
 	text-align: center;
 	background: #F9F9F9;
 	color: #4B4B4B;
+	margin-left: 15%;
 }
 
 .secure { color: #27AE60; }
 
-.field-error {
-	display: block;
-	color: #F04F6E;
-	margin-left: 15px;
+.register-parent {
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.registerPanel {
+    width: 500px;
+    text-align: center;
+}
+
+.registerPanel h3.title {
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.registerPanel .uk-inline {
+    width: 70%;
+}
+
+.registerPanel .error {
+    display: block;
+    color: #e60000;
+}
+
+.registerPanel input {
+	padding-left: 20px;
 }

@@ -22,6 +22,7 @@ new Vue({
 
 		sendRequests: function() {
 			$('#send-inv').html('Skickar');
+			$('#errors').hide();
 
 			axios.post('/admin/do?action=add_users', {
 				headers: {
@@ -30,6 +31,18 @@ new Vue({
 				'email_list': this.email_list,
 			})
 			.then((response) => {
+				if (response.data != 'success') {
+					let errors = '';
+					response.data.forEach(error => {
+						errors += (error + '<br>');
+					});
+
+					$('#status').html(errors);
+				} else {
+					$('#status').html('Skickat utan problem.');
+				}
+
+				$('#status').show();
 				$('#send-inv').html('skickat');
 				$('#send-inv').addClass('show');
 				this.email_list = [];

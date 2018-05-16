@@ -27,6 +27,7 @@ use App\Jobs\TicketMailJob;
 
 Route::get('/admin', 'AdminController@index');
 Route::get('/admin/senaste', 'AdminController@latest');
+Route::get('/admin/klasslista', 'AdminController@classList');
 Route::get('/admin/bjud-in', 'AdminController@showCreateUser');
 
 Route::get('/', 'TicketController@index');

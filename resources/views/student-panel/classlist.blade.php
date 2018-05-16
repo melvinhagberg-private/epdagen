@@ -1,7 +1,7 @@
 @extends('student-panel.master')
 
 @section('head')
-	<title>Senaste försäljningar - EP-admin</title>
+	<title>Klasslista - EP-admin</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.40/css/uikit.min.css">
 	<link rel="stylesheet" href="/css/student/panels/latest.css">
 @endsection
@@ -10,25 +10,23 @@
 <div class='settings-wrapper'>
 
 	<div class="panel single-panel">
-		<h3>Dina senaste försäljningar</h3>
+		<h3>Klasslista {{$users[0]->grade}}</h3>
 		<table class="uk-table uk-table-hover uk-table-divider">
 			<thead>
 				<tr>
 					<td>Namn</td>
                     <td>E-post</td>
-                    <td>Telefon</td>
-					<td>Antal och typ</td>
-                    <td>Försäljningsvärde</td>
+                    <td>Sälj-url</td>
+					<td>Total försäljning</td>
 				</tr>
 			</thead>
 			<tbody>
-                @foreach ($groups as $a)
+                @foreach ($users as $user)
     				<tr>
-    					<td>{{$a['name']}}</td>
-                        <td>{{$a['email']}}</td>
-                        <td>{{$a['phone']}}</td>
-    					<td>{{$a['num']}} {{$a['nice_type']}}</td>
-                        <td>{{number_format($a['price'], 0, '', ' ')}} kr</td>
+    					<td>{{$user->name}}</td>
+                        <td>{{$user->email}}</td>
+                        <td><a href='{{url($user->sell_url)}}'>{{$user->sell_url}}</a></td>
+                        <td>{{number_format($user->sold_for, 0, '', ' ')}} kr</td>
     				</tr>
                 @endforeach
 			</tbody>

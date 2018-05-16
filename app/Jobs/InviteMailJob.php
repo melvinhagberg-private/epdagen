@@ -15,13 +15,14 @@ class InviteMailJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $email;
+    public $email, $user;
 
-    public function __construct($email) {
+    public function __construct($email, $user) {
         $this->email = $email;
+        $this->by_user = $user;
     }
 
     public function handle() {
-        Mail::to($this->email)->send(new RegisterStudent(md5($this->email)));
+        Mail::to($this->email)->send(new RegisterStudent(md5($this->email), 'Melvin Hagberg'));
     }
 }

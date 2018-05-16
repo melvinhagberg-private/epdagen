@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use Auth;
-// use Illuminate\Support\Facades\Mail; // remove this one as well soon
 use Illuminate\Http\Request;
 use App\User;
-// use App\Mail\RegisterStudent;
 use App\Jobs\InviteMailJob;
 
 class SettingsController extends Controller {
@@ -34,10 +32,8 @@ class SettingsController extends Controller {
 							'signup_token' => md5($user['email'])
 						]);
 
-						$job = ((new InviteMailJob($user['email']))->delay(now()->addSeconds(1)));
+						$job = ((new InviteMailJob($user['email'], Auth::user()))->delay(now()->addSeconds(1)));
 						dispatch($job);
-
-						// Mail::to($user['email'])->send(new RegisterStudent(md5($user['email'])));
 					}
 
 					User::insert($userList);
@@ -61,7 +57,7 @@ class SettingsController extends Controller {
 							'signup_token' => md5($email)
 						]);
 
-						$job = ((new InviteMailJob($email))->delay(now()->addSeconds(1)));
+						$job = ((new InviteMailJob($email, Auth::user()->name))->delay(now()->addSeconds(1)));
 						dispatch($job);
 
 						// Mail::to($email)->send(new RegisterStudent(md5($email)));

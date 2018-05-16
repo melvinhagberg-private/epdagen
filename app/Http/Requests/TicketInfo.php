@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Ticket;
 use App\User;
+use Carbon\Carbon;
 
 class TicketInfo extends FormRequest
 {
@@ -33,7 +34,7 @@ class TicketInfo extends FormRequest
     }
 
     public function consist() {
-        
+
         $type = request('form-type');
 
         switch($type) {
@@ -57,7 +58,7 @@ class TicketInfo extends FormRequest
 
         $affiliate = User::where('name', request('student_name'))->first()['id'];
 
-        for ($x = 0; $x < $ticket_count; $x++) { 
+        for ($x = 0; $x < $ticket_count; $x++) {
             array_push($tickets, [
                 'ticket_id' => md5(now() . ($x + 1)),
                 'group' => $group,
@@ -67,6 +68,7 @@ class TicketInfo extends FormRequest
                 'student_id' => $affiliate,
                 'type' => $type,
                 'price' => $price,
+                'created_at' => Carbon::now(),
             ]);
         }
 

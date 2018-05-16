@@ -15,7 +15,7 @@
                 <li><a href="{{url('/admin')}}"><span class="uk-margin-small-right" uk-icon="icon: home"></span>Startpanel</a></li>
                 <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: settings"></span>Inställningar</a></li>
 				<li><a href="{{url('/admin/senaste')}}"><span class="uk-margin-small-right" uk-icon="icon: cart"></span>Senaste försäljningar</a></li>
-				<li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: users"></span>Klasslista</a></li>
+				<li><a href="{{url('/admin/klasslista')}}"><span class="uk-margin-small-right" uk-icon="icon: users"></span>Klasslista</a></li>
 
 				@if ($role == 1 || $role == 3)
 					<li class="uk-nav-divider"></li>

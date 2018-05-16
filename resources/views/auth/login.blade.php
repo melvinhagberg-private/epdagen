@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('head')
+    <title>Logga in - EP-admin</title>
     <link rel="stylesheet" href="/css/student/login.css">
 @endsection
 

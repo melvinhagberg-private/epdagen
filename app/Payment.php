@@ -63,7 +63,6 @@ class Payment extends Model {
 		curl_close($curl);
 
         if (!isset($response['payment_ref'])) {
-            // session()->flush();
             return redirect(url('/biljett/uppgifter'));
         }
 
@@ -73,7 +72,6 @@ class Payment extends Model {
 			Ticket::where('ticket_id', $payid)->update(['payment_ref' => $response['payment_ref']]);
 		}
 
-		// Error handling
 		return $response['href'];
 	}
 

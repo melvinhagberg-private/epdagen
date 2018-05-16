@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('head')
-    <title>Registrera - {{ config('app.name') }}</title>
+    <title>Registrera - EP-admin</title>
     <link rel="stylesheet" href="/css/student/register.css">
 @endsection
 
@@ -59,7 +59,7 @@
     	        </div>
 
                 <div class="uk-margin">
-                    <button type='submit' class="uk-button uk-button-primary">Logga in</button>
+                    <button type='submit' class="uk-button uk-button-primary">Registrera</button>
                 </div>
     		</form>
         </div>

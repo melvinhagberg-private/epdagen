@@ -73,3 +73,7 @@ p.atr:first-of-type {
 .uk-alert {
 	display: none;
 }
+
+span.hint {
+	font-size: 12px;
+}

@@ -1,6 +1,5 @@
 let types = document.querySelectorAll('.type');
 let form_type = $("input[name='form-type']");
-    form_type.value = 'privat';
 let submit_button = $("button[type='submit']");
 let inputs = document.querySelectorAll('input, select');
 
@@ -10,8 +9,10 @@ inputs.forEach(input => {
     input.addEventListener('change', () => {
         emptyExists = false;
         inputs.forEach(target => {
-            if (target.value === '' || target.value === 'none') {
-                emptyExists = true;
+            if ($(target).attr('name') !== 'Företag') {
+                if (target.value === '' || target.value === 'none') {
+                    emptyExists = true;
+                }
             }
         });
         if (!emptyExists) { submit_button.removeAttr('disabled'); }
@@ -46,9 +47,14 @@ function changeTotal(type, value) {
     switch (form_type.value) {
         case 'privat':
             total = parseInt(numTickets * 350) + ' kr inkl. moms';
+            $('#foretag-group').hide();
+            $('.payment-method .methods .faktura').hide();
             break;
+
         case 'foretag':
             total = parseInt(numTickets * 500) + ' kr exkl. moms';
+            $('#foretag-group').show();
+            $('.payment-method .methods .faktura').show();
     }
     
     if (numTickets >= 1) {
@@ -59,4 +65,20 @@ function changeTotal(type, value) {
     
     $('#total').text(total);
 }
+
+// let formTypeVal = document.querySelector(`input[name='form-type']`).value;
+// let typeClassIsSet = false;
+
+// console.log(formTypeVal);
+
+// if (formTypeVal !== 'foretag') {
+//     formTypeVal = 'privat';
+// }
+
+// types.forEach(function(type) {
+//     if (type.dataset.type === formTypeVal) {
+//         type.classList.add('type-active');
+//         typeClassIsSet = true;
+//     }
+// });
 

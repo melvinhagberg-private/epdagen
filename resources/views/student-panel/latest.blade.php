@@ -26,7 +26,21 @@
     				<tr>
     					<td>{{$a['name']}}</td>
                         <td>{{$a['email']}}</td>
-                        <td>{{$a['phone']}}</td>
+						<td>
+							<?php 
+								$phone = $a['phone'];
+								$phone = str_replace(' ', '', str_replace('-', '', str_replace('+', '', $phone)));
+								
+								if (substr($phone, 0, 1) === '0' && strlen($phone) === 10) {
+									$phone = substr($phone, 0, 3) . ' ' . substr($phone, 3, 3) . ' ' . substr($phone, 6, 2) . ' ' . substr($phone, 8, 2);
+								} else if (substr($phone, 0, 2) === '46' && $phone === 11) {
+									$phone = '+' . substr($phone, 0, 2) . ' ' . substr($phone, 2, 2) . ' ' . substr($phone, 4, 3) . ' ' . substr($phone, 7, 2) . ' ' . substr($phone, 9, 2);
+								}
+								
+								echo $phone;
+							?>
+						</td>
+						
     					<td>{{$a['num']}} {{$a['nice_type']}}</td>
                         <td>{{number_format($a['price'], 0, '', ' ')}} kr</td>
     				</tr>

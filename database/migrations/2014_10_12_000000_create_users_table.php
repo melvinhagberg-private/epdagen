@@ -23,7 +23,6 @@ class CreateUsersTable extends Migration
             $table->integer('role')->default(0);
             $table->string('sell_url')->nullable();
             $table->string('grade');
-            $table->integer('sold_for')->default(0);
 
             $table->string('signup_token')->nullable();
             $table->rememberToken()->nullable();

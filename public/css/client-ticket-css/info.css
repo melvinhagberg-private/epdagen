@@ -124,8 +124,48 @@ button[type='submit']:focus {
     text-align: center;
 }
 
+#foretag-group {
+	display: none;
+}
+
 #app {
 	width: 80vw;
+}
+
+.payment-method > label {
+	margin-bottom: 3px;
+}
+
+.payment-method .methods {
+	padding: 5px 10px;
+	border: 1px solid #DEDFDE;
+}
+
+.payment-method .methods div {
+	display: flex;
+	align-items: center;
+}
+
+.payment-method .methods div > * {
+	display: inline;
+	width: auto;
+	height: auto;
+	margin: 0;
+	padding: 0;
+	cursor: pointer;
+}
+
+.payment-method .methods div > label {
+	font-size: 15px;
+	margin-left: 10px;
+}
+
+.payment-method .methods .faktura {
+	display: none;
+}
+
+.payment-method .methods .faktura > label {
+	margin-left: 6px;
 }
 
 @media screen and (min-width: 640px) {

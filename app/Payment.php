@@ -8,6 +8,8 @@ use App\User;
 use App\PDFgen;
 use App\Jobs\TicketMailJob;
 use App\Jobs\TicketSoldJob;
+use App\jobs\ReceiptJob;
+use Session;
 
 class Payment extends Model {
 
@@ -24,7 +26,6 @@ class Payment extends Model {
 		}
 		$price = strval($price . '.00');
 
-		// Set payid: if it is a group, set to group ID and if single set to ticket ID
 		if (session('client.group') !== '') {
 			$payid = session('client.group');
 			$isgroup = true;
@@ -41,8 +42,8 @@ class Payment extends Model {
 			"payment_ref" => $payid,
 			"test" => "test",
 			"currency" => "sek",
-			"success_url" => "https://epdagen.dev/biljett/tack-for-ditt-kop",
-			"error_url" => "https://epdagen.dev/error_swish",
+			"success_url" => "https://www.epdagen.dev/biljett/tack-for-ditt-kop",
+			"error_url" => "https://www.pekarepdagen.dev/error_swish",
 			"customer_ref" => $payid,
 			'hash' => md5(3711 . $payid . $payid . $price . 'sek' . 'test' . '$2a$10$EOZPTxxNnB5fTy0ai35WE.')
 		);
@@ -71,6 +72,8 @@ class Payment extends Model {
 		} else {
 			Ticket::where('ticket_id', $payid)->update(['payment_ref' => $response['payment_ref']]);
 		}
+        
+        Session::save();
 
 		return $response['href'];
 	}
@@ -85,10 +88,8 @@ class Payment extends Model {
 
                 $email = session('client.products.0.email');
                 $filepaths = $this->PDFgen->main($tickets->get());
-                $prods = session()->get('client.products');
-
-                $job = ((new TicketMailJob($filepaths, $email, $prods[0]['name']))->delay(now()->addSeconds(1)));
-                dispatch($job);
+                
+                $prods = session('client.products');
 
 				$student_id = $prods[0]['student_id'];
 				$total = 0;
@@ -97,17 +98,23 @@ class Payment extends Model {
 					$total += $prod['price'];
                     $num = $key;
 				}
+                
+                $job = ((new TicketMailJob($filepaths, $email, $prods[0]['name']))->delay(now()->addSeconds(1)));
+                dispatch($job);
 
 				$student_query = User::where('id', $student_id);
-                $student_query->increment('sold_for', $total);
-                $student_email = $student_query->first()['email'];
 
-                $name = $prods[0]['name'];
-                $email = $prods[0]['email'];
-                $phone = $prods[0]['phone'];
+				if ($student_query->exists()) {
+	                $student_email = $student_query->first()['email'];
 
-                $job = ((new TicketSoldJob($student_email, $num, $total, $name, $email, $phone))->delay(now()->addSeconds(1)));
-                dispatch($job);
+	                $name = $prods[0]['name'];
+	                $email = $prods[0]['email'];
+	                $phone = $prods[0]['phone'];
+
+	                dispatch(new TicketSoldJob($student_email, $num, $total, $name, $email, $phone));
+	            }
+
+                dispatch(new ReceiptJob($prods));
 
 			return redirect(request()->url())->with('sent-email', session('client.products.0.email'));
 

@@ -8,7 +8,6 @@
 @section('body')
 <div id='app'>
 	<form method='POST' action='/biljett/uppgifter'>
-
 		{{ csrf_field() }}
 		<input type="hidden" name='form-type' value='privat'>
 
@@ -21,47 +20,35 @@
 		</div>
 
 		<div class='form-group'>
-			<label for='name'>Namn</label>
+			<label>Namn</label>
 			<input autofocus id='name' type="text" name="Namn" value="{{old('Namn')}}">
 			@if ($errors->has('Namn')) <span class='error'>{{$errors->first('Namn')}}</span> @endif
 		</div>
 
 		<div class='form-group'>
-			<label for='email'>E-post</label>
+			<label>E-post</label>
 			<input id='email' type="email" name="E-post" value="{{old('E-post')}}">
 			@if ($errors->has('E-post')) <span class='error'>{{$errors->first('E-post')}}</span> @endif
 		</div>
 
 		<div class='form-group'>
-			<label for='phone'>Telefon</label>
+			<label>Telefon</label>
 			<input id='phone' type="text" name="Telefonnummer" value="{{old('Telefonnummer')}}">
 			@if ($errors->has('Telefonnummer')) <span class='error'>{{$errors->first('Telefonnummer')}}</span> @endif
 		</div>
 
-		<div class='form-group'>
-			@if ($affiliate)
-				<input type='hidden' name='student_name' value='{{$affiliate["name"]}}'>
-			@else
-				<label for='student_name'>Säljare</label>
-				<div class="select" id='student_name'>
-					<select name='student_name'>
-						<option value='none' selected>Välj säljare</option>
-						@foreach($grades as $grade)
-							<optgroup label="{{$grade['grade']}}">
-								@foreach ($students as $student)
-									@if ($student['grade'] == $grade['grade'])
-										<option>{{$student['name']}}</option>
-									@endif
-								@endforeach
-							</optgroup>
-						@endforeach
-					</select>
-				</div>
-			@endif
+		<div class='form-group' id='foretag-group'>
+			<label>Företag</label>
+			<input autofocus type="text" name="Företag" value="{{old('Företag')}}">
+			@if ($errors->has('Företag')) <span class='error'>{{$errors->first('Företag')}}</span> @endif
 		</div>
 
+		@if ($affiliate)
+			<input type='hidden' name='student_name' value='{{$affiliate["name"]}}'>
+		@endif
+
 		<div class='form-group'>
-			<label for='form-ticket-count'>Antal Biljetter</label>
+			<label>Antal Biljetter</label>
 			<div class="select">
 				<select name='Biljettantal' id='numTickets'>
 					<option value='none' disabled selected>Antal biljetter</option>
@@ -78,6 +65,25 @@
 				</select>
 			</div>
 			@if ($errors->has('Biljettantal')) <span class='error'>{{$errors->first('Biljettantal')}}</span> @endif
+		</div>
+
+		<div class='form-group payment-method'>
+			<label>Betalningsmetod</label>
+
+			<div class='methods'>
+				<div>
+					<input checked type='radio' name='Betalmetod' id='kortbetalning' value='kortbetalning'>
+					<label for='kortbetalning'>Kortbetalning</label>
+				</div>
+				<div>
+					<input type='radio' name='Betalmetod' id='swish' value='swish'>
+					<label for='swish'>Swish</label>
+				</div>
+				<div class='faktura'>
+					<input type='radio' name='Betalmetod' id='faktura' value='faktura'>
+					<label for='faktura'>Faktura</label>
+				</div>
+			</div>
 		</div>
 
 		<span id='total'></span>

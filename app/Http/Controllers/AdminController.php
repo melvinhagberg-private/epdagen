@@ -34,10 +34,9 @@ class AdminController extends Controller {
 
 		// Grade total
 		$tickets = Ticket::with('users')->get();
+
 		$totals = [];
 		foreach($tickets as $ticket) {
-			$grade = $ticket->users->grade;
-
 			if ($ticket->type === 1) {
 				$price = 350;
 			} else if ($ticket->type === 2) {
@@ -46,10 +45,14 @@ class AdminController extends Controller {
 				return;
 			}
 
-			if (isset($totals[$grade])) {
-				$totals[$grade] += $price;
-			} else {
-				$totals[$grade] = $price;
+			if (isset($ticket->user)) {
+				$grade = $ticket->users->grade;
+			
+				if (isset($totals[$grade])) {
+					$totals[$grade] += $price;
+				} else {
+					$totals[$grade] = $price;
+				}
 			}
 		}
 
@@ -151,7 +154,8 @@ class AdminController extends Controller {
 					'num' => 1,
 					'type' => $ticket['type'],
 					'nice_type' => $type,
-					'price' => $price
+					'price' => $price,
+					'created_at' => $ticket['created_at']
 				);
 
 			}

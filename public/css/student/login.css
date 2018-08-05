@@ -24,4 +24,5 @@
 .loginPanel .error {
     display: block;
     color: #e60000;
+    margin: -10px 0;
 }

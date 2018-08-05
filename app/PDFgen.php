@@ -8,11 +8,9 @@ use App\Ticket;
 use Auth;
 use Dompdf\Dompdf;
 
-class PDFgen extends Model
-{
+class PDFgen extends Model {
 
     public function main($tickets) {
-
         $filepaths = array();
 
         foreach ($tickets as $key => $ticket) {
@@ -20,7 +18,7 @@ class PDFgen extends Model
 
             $dompdf = new Dompdf();
 
-            $qrcode = base64_encode(QrCode::format('png')->size(512)->generate('http://192.168.1.16:80/validera/' . $ticket_id));
+            $qrcode = base64_encode(QrCode::format('png')->size(512)->generate('http://10.0.1.37:80/validera/' . $ticket_id));
 
             $html = view('pdfs.ticket', compact('qrcode'));
             $dompdf->loadHtml($html);
@@ -34,7 +32,6 @@ class PDFgen extends Model
         }
 
         return $filepaths;
-
     }
 
 }

@@ -11,7 +11,7 @@
 
 	<script>
 		let allowRedirect = false;
-
+		
 		document.querySelector('iframe').onload = (e) => {
 			if (allowRedirect == true) {
 				e.preventDefault();

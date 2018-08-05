@@ -1,9 +1,5 @@
 <?php
 
-use App\Admin;
-
-use App\Jobs\TicketMailJob;
-
 /* ----- Main: Tickets ----- */
 	/* ----- Step 1: Info ----- */
 	Route::get('/biljett/uppgifter', 'TicketController@viewInfo');
@@ -20,7 +16,7 @@ use App\Jobs\TicketMailJob;
 	Route::get('/validera/regret/{ticket_id}', 'TicketController@ticketRegret');
 
 /* ----- Main: Admin ----- */
-	Admin::routes();
+	App\Admin::routes();
 
 	/* ----- Settings: Posts ----- */
 	Route::post('/admin/do', 'SettingsController@do');

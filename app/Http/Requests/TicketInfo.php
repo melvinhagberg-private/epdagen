@@ -26,26 +26,41 @@ class TicketInfo extends FormRequest
      */
     public function rules() {
         return [
-            'Namn' => 'required|string|regex:/^^\s*[a-zA-Z. ]{4,}(?:\s+\w+)+\s*$/',
+            'Namn' => 'required|string',
             'E-post' => 'required|string|email',
             'Telefonnummer' => 'required|regex:/[0-9 +]{9,}/',
-            'Biljettantal' => 'required|int'
+            'Biljettantal' => 'required|int',
+            'Företag' => 'nullable',
+            'Betalmetod' => 'required'
         ];
     }
 
     public function consist() {
-
         $type = request('form-type');
+        $company = request('Företag');
 
         switch($type) {
             case 'privat':
                 $price = 350;
                 $type = 1;
+                $company = null;
                 break;
+
             case 'foretag':
                 $price = 500;
                 $type = 2;
         }
+
+        $payment_method = request('Betalmetod');
+
+        if ($type == 'privat' && $payment_method == 'faktura') {
+            return redirect()->back()->withErrors(['betalmetod', 'fel']);
+
+        } else if ($payment_method != 'faktura' && $payment_method != 'swish' && $payment_method != 'kortbetalning') {
+            return redirect()->back()->withErrors(['betalmetod', 'fel']);
+        }
+
+        session(['payment_method' => $payment_method]);
 
         $tickets = [];
         $ticket_count = strval(request('Biljettantal'));
@@ -68,6 +83,7 @@ class TicketInfo extends FormRequest
                 'student_id' => $affiliate,
                 'type' => $type,
                 'price' => $price,
+                'company' => $company,
                 'created_at' => Carbon::now(),
             ]);
         }

@@ -26,8 +26,7 @@ class TicketSold extends Mailable
      *
      * @return $this
      */
-    public function build()
-    {
+    public function build() {
         return $this->view('mails/ticketsold')->with([
             'num' => $this->num,
             'total' => $this->total,

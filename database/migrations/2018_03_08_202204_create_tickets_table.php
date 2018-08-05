@@ -22,9 +22,10 @@ class CreateTicketsTable extends Migration
             $table->string('email');
             $table->string('phone');
             $table->integer('type');
+            $table->string('company')->nullable();
 
             $table->boolean('used')->default(false);
-            $table->integer('student_id');
+            $table->integer('student_id')->nullable();
             $table->integer('payment_status')->default(0);
             $table->string('payment_ref')->default('');
 

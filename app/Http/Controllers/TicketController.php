@@ -42,21 +42,6 @@ class TicketController extends Controller {
 			$affiliate = session('student');
 		}
 
-		if (!isset($affiliate)) {
-			$students = User::orderBy('grade')->where('role', 2)->orWhere('role', 3)->get();
-			$grades = User::selectRaw('COUNT(id), grade')->groupBy('grade')->get();
-			$affiliate = false;
-		}
-
-		if (!$affiliate) {
-			foreach ($grades as $index => $grade) {
-				if ($grade['grade'] == 'NOINDEX') {
-					unset($grades[$index]);
-					break;
-				}
-			}
-		}
-
 		return view('client-ticket.info.index', compact('name', 'affiliate', 'students', 'grades'));
 	}
 
@@ -66,7 +51,7 @@ class TicketController extends Controller {
 
 	/* ----- Step 2: Payment ----- */
 	public function viewPayment() {
-		if (!session()->has('client.products')) {
+		if (!session()->has('client.products') || (!(session()->has('payment_method')))) {
 			return redirect('/');
 		}
 

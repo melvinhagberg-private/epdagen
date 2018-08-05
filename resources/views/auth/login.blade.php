@@ -18,9 +18,6 @@
                     <span class="uk-form-icon" uk-icon="icon: mail"></span>
                     <input name='email' type='email' class="uk-input" type="text" placeholder='E-post' required autofocus value="{{old('email')}}">
                 </div>
-                @if ($errors->has('email'))
-                    <span class="error">{{ $errors->first('email') }}</span>
-                @endif
             </div>
 
             <div class="uk-margin">
@@ -28,11 +25,11 @@
                     <span class="uk-form-icon" uk-icon="icon: lock"></span>
                     <input name='password' type='password' class="uk-input" type="text" placeholder='Lösenord'>
                 </div>
-
-                @if ($errors->has('password'))
-                    <span class="error">{{ $errors->first('password') }}</span>
-                @endif
             </div>
+            
+            @if ($errors->any())
+                <span class="error">{{ $errors->first() }}</span>
+            @endif
 
             <div class="uk-margin">
                 <button type='submit' class="uk-button uk-button-primary uk-button-small">Logga in</button>

@@ -59,8 +59,6 @@ class SettingsController extends Controller {
 
 						$job = ((new InviteMailJob($email, Auth::user()->name))->delay(now()->addSeconds(1)));
 						dispatch($job);
-
-						// Mail::to($email)->send(new RegisterStudent(md5($email)));
 					}
 
 					User::insert($emailList);
